@@ -19,3 +19,7 @@
 
 # Go workspace file
 go.work
+vendor/
+main
+user-auth/main
+.vscode
