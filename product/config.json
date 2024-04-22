@@ -1,0 +1,16 @@
+{
+    "port": 5001,
+    "secret": "sample-secret",
+    "url-prefix": "user-auth",
+    "database" : {
+        "host": "localhost",
+        "port": "5432",
+        "dbname": "postgres",
+        "username": "username",
+        "password": "password",
+        "type": "postgres",
+        "max_open_conn": "1000",
+        "max_idle_conn": "10"
+    },
+    "SECRET": "some-random-secret"
+}

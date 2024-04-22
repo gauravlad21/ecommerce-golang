@@ -4,6 +4,5 @@ CREATE TABLE users (
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(500) NOT NULL,
     created TIMESTAMP DEFAULT current_timestamp,
-    updated TIMESTAMP DEFAULT current_timestamp,
-    deleted TIMESTAMP DEFAULT current_timestamp
+    updated TIMESTAMP DEFAULT current_timestamp
 );
