@@ -1,4 +1,5 @@
-
+-- +goose Up
+-- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -7,3 +8,10 @@ CREATE TABLE IF NOT EXISTS users (
     created TIMESTAMP DEFAULT current_timestamp,
     updated TIMESTAMP DEFAULT current_timestamp
 );
+-- +goose StatementEnd
+
+
+-- +goose Down
+-- +goose StatementBegin
+-- DROP TABLE video;
+-- +goose StatementEnd

@@ -3,7 +3,7 @@
     "secret": "sample-secret",
     "url-prefix": "order-management",
     "database" : {
-        "host": "localhost",
+        "host": "db",
         "port": "5432",
         "dbname": "postgres",
         "username": "username",

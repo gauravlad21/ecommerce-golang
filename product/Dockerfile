@@ -9,4 +9,4 @@ COPY ../common ../
 RUN go mod tidy
 RUN go mod vendor
 RUN go build -o main .
-CMD ./main --config=config.json
+CMD ./main --config=./config.json

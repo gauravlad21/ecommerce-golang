@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"time"
 
 	"github.com/gauravlad21/ecommerce-golang/order-management/common"
 	"github.com/gauravlad21/ecommerce-golang/order-management/controller"
@@ -48,7 +49,7 @@ func initAndStartServer() {
 }
 
 func main() {
-
+	time.Sleep(5 * time.Second)
 	defaultPath := "default-path"
 	var configPath string
 	flag.StringVar(&configPath, "config", defaultPath, "local config path")

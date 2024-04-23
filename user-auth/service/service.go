@@ -18,7 +18,7 @@ func (s *ServiceStruct) Hello(ctx context.Context) string {
 func (s *ServiceStruct) Signup(ctx context.Context, body *common.UserAuthBody) *common.Response {
 
 	// validation
-	if body == nil || body.Email == "" || body.Password == "" || common.StringToUnit(body.UserType) == "" {
+	if body == nil || body.Email == "" || body.Password == "" || common.StringToUserType(body.UserType) == "" {
 		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "body is nil")
 	}
 

@@ -4,9 +4,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"time"
 
 	"github.com/gauravlad21/ecommerce-golang/user-auth/common"
 	"github.com/gauravlad21/ecommerce-golang/user-auth/controller"
+	migration "github.com/gauravlad21/ecommerce-golang/user-auth/migrations"
 	urlmap "github.com/gauravlad21/ecommerce-golang/user-auth/urls_mappings"
 
 	"github.com/gin-gonic/gin"
@@ -48,13 +50,14 @@ func initAndStartServer() {
 }
 
 func main() {
-
+	time.Sleep(5 * time.Second)
 	defaultPath := "default-path"
 	var configPath string
 	flag.StringVar(&configPath, "config", defaultPath, "local config path")
 
 	flag.Parse()
 
+	migration.Migrate()
 	common.ReadConfigFile(configPath)
 	initAndStartServer()
 }

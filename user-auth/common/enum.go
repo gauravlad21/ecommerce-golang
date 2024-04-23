@@ -18,7 +18,7 @@ func (u UserType) String() string {
 	}
 }
 
-func StringToUnit(str string) UserType {
+func StringToUserType(str string) UserType {
 	switch str {
 	case "admin":
 		return Admin
@@ -29,7 +29,7 @@ func StringToUnit(str string) UserType {
 	}
 }
 
-func GetUnits() []UserType {
+func GetUserType() []UserType {
 	return []UserType{
 		Admin,
 		Normal,
