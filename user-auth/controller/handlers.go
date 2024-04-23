@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gauravlad21/ecommerce-golang/common"
-	userAuthCommon "github.com/gauravlad21/ecommerce-golang/user-auth/common"
+	"github.com/gauravlad21/ecommerce-golang/user-auth/common"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +15,7 @@ func Hello(oldctx *gin.Context) {
 }
 
 func Signup(c *gin.Context) {
-	body := &userAuthCommon.UserAuthBody{}
+	body := &common.UserAuthBody{}
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return
@@ -26,7 +25,7 @@ func Signup(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	body := userAuthCommon.UserAuthBody{}
+	body := common.UserAuthBody{}
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return
@@ -65,7 +64,7 @@ func RequireAuth(c *gin.Context) {
 func Validate(c *gin.Context) {
 	contectUser, _ := c.Get("user")
 
-	user := contectUser.(*userAuthCommon.User)
+	user := contectUser.(*common.User)
 	user.Password = "updated from handler"
 	c.JSON(http.StatusOK, gin.H{
 		"message": user,
