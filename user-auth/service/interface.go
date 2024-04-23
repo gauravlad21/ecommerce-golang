@@ -12,7 +12,6 @@ type ServiceIF interface {
 	Hello(ctx context.Context) string
 	Signup(ctx context.Context, body *userAuthCommon.UserAuthBody) *common.Response
 	Login(ctx context.Context, body *userAuthCommon.UserAuthBody) *userAuthCommon.LoginResposne
-	Validate(ctx context.Context, user interface{}) *common.Response
 	RequireAuth(ctx context.Context, token string) (*userAuthCommon.User, error)
 }
 
