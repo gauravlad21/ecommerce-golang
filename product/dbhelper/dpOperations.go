@@ -43,7 +43,7 @@ func (dbOps *DbOps) CloseDb(ctx context.Context) error {
 
 // start from below
 func (dbOps *DbOps) InsertProduct(ctx context.Context, req *productCommon.Product, tx ...*sql.Tx) (id int32, err error) {
-	params := dbsqlc.InsertProductParams{Name: req.Name, Weight: req.Weight, Quantity: req.Quantity, Unit: req.Unit}
+	params := dbsqlc.InsertProductParams{Name: req.Name, Weight: req.Weight, Quantity: req.Quantity, Unit: req.Unit, PricePerProduct: req.PricePerItem}
 	id, err = GetSqlcQuery(dbOps.DbSqlc, tx...).InsertProduct(ctx, params)
 	if err != nil {
 		return -1, err
@@ -61,11 +61,12 @@ func (dbOps *DbOps) GetProduct(ctx context.Context, id int32, tx ...*sql.Tx) (pr
 	}
 	firstProduct := products[0]
 	product = &productCommon.Product{
-		Id:       firstProduct.ID,
-		Name:     firstProduct.Name,
-		Weight:   firstProduct.Weight,
-		Unit:     firstProduct.Unit,
-		Quantity: firstProduct.Quantity,
+		Id:           firstProduct.ID,
+		Name:         firstProduct.Name,
+		Weight:       firstProduct.Weight,
+		Unit:         firstProduct.Unit,
+		Quantity:     firstProduct.Quantity,
+		PricePerItem: firstProduct.PricePerProduct,
 	}
 	return product, nil
 }

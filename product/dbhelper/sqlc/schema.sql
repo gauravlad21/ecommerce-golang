@@ -4,6 +4,7 @@ CREATE TABLE product (
     weight int UNIQUE NOT NULL,
     unit VARCHAR(100) UNIQUE NOT NULL,
     quantity int UNIQUE NOT NULL DEFAULT 1,
+    price_per_product float NOT NULL,
     version int UNIQUE NOT NULL DEFAULT 1,
     is_deleted bool DEFAULT false,
     created TIMESTAMP DEFAULT current_timestamp,

@@ -1,12 +1,13 @@
 package common
 
 type Product struct {
-	Id       int32
-	Name     string
-	Weight   int32  // 500, 1
-	Unit     string // grams, litre
-	Quantity int32
-	Version  int
+	Id           int32   `json:"id"`
+	Name         string  `json:"name"`
+	Weight       int32   `json:"weight"` // 500, 1
+	Unit         string  `json:"unit"`   // grams, litre
+	Quantity     int32   `json:"quantity"`
+	PricePerItem float64 `json:"price_per_item"`
+	Version      int     `json:"version"`
 }
 
 type UpdateProductQuantity struct {
