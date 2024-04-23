@@ -21,7 +21,7 @@ func (q *Queries) DeleteProduct(ctx context.Context, id int32) error {
 }
 
 const getProduct = `-- name: GetProduct :many
-SELECT id, name, weight, unit, quantity, version, is_deleted, created, updated FROM product
+SELECT id, name, weight, unit, quantity, price_per_product, version, is_deleted, created, updated FROM product
 WHERE id=$1 and is_deleted=false
 `
 
@@ -40,6 +40,7 @@ func (q *Queries) GetProduct(ctx context.Context, id int32) ([]Product, error) {
 			&i.Weight,
 			&i.Unit,
 			&i.Quantity,
+			&i.PricePerProduct,
 			&i.Version,
 			&i.IsDeleted,
 			&i.Created,
@@ -60,18 +61,19 @@ func (q *Queries) GetProduct(ctx context.Context, id int32) ([]Product, error) {
 
 const insertProduct = `-- name: InsertProduct :one
 INSERT INTO product(
-    name, weight, unit, quantity, version
+    name, weight, unit, quantity, price_per_product, version
 )VALUES(
-    $1, $2, $3, $4, 1
+    $1, $2, $3, $4, $5, 1
 )
 RETURNING id
 `
 
 type InsertProductParams struct {
-	Name     string
-	Weight   int32
-	Unit     string
-	Quantity int32
+	Name            string
+	Weight          int32
+	Unit            string
+	Quantity        int32
+	PricePerProduct float64
 }
 
 func (q *Queries) InsertProduct(ctx context.Context, arg InsertProductParams) (int32, error) {
@@ -80,6 +82,7 @@ func (q *Queries) InsertProduct(ctx context.Context, arg InsertProductParams) (i
 		arg.Weight,
 		arg.Unit,
 		arg.Quantity,
+		arg.PricePerProduct,
 	)
 	var id int32
 	err := row.Scan(&id)

@@ -1,7 +1,7 @@
 {
     "port": 5001,
     "secret": "sample-secret",
-    "url-prefix": "product",
+    "url-prefix": "order-management",
     "database" : {
         "host": "localhost",
         "port": "5432",

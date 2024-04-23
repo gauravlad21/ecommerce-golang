@@ -1,8 +1,8 @@
 -- name: InsertProduct :one
 INSERT INTO product(
-    name, weight, unit, quantity, version
+    name, weight, unit, quantity, price_per_product, version
 )VALUES(
-    $1, $2, $3, $4, 1
+    $1, $2, $3, $4, $5, 1
 )
 RETURNING id;
 
