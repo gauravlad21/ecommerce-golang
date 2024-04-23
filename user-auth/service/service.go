@@ -19,7 +19,7 @@ func (s *ServiceStruct) Hello(ctx context.Context) string {
 func (s *ServiceStruct) Signup(ctx context.Context, body *userAuthCommon.UserAuthBody) *common.Response {
 
 	// validation
-	if body == nil || body.Email == "" || body.Password == "" {
+	if body == nil || body.Email == "" || body.Password == "" || userAuthCommon.StringToUnit(body.UserType) == "" {
 		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "body is nil")
 	}
 
@@ -105,8 +105,4 @@ func (s *ServiceStruct) RequireAuth(ctx context.Context, tokenString string) (*u
 		return nil, fmt.Errorf("Unautorized")
 	}
 	return user, nil
-}
-
-func (s *ServiceStruct) Validate(ctx context.Context, user interface{}) *common.Response {
-	return common.GetDefaultResponse()
 }

@@ -10,7 +10,7 @@ import (
 )
 
 const getUser = `-- name: GetUser :many
-SELECT id, email, password, created, updated, deleted FROM users
+SELECT id, email, password, user_type, created, updated FROM users
 WHERE email=$1
 `
 
@@ -27,9 +27,9 @@ func (q *Queries) GetUser(ctx context.Context, email string) ([]User, error) {
 			&i.ID,
 			&i.Email,
 			&i.Password,
+			&i.UserType,
 			&i.Created,
 			&i.Updated,
-			&i.Deleted,
 		); err != nil {
 			return nil, err
 		}
@@ -45,7 +45,7 @@ func (q *Queries) GetUser(ctx context.Context, email string) ([]User, error) {
 }
 
 const getUserById = `-- name: GetUserById :many
-SELECT id, email, password, created, updated, deleted FROM users
+SELECT id, email, password, user_type, created, updated FROM users
 WHERE id=$1
 `
 
@@ -62,9 +62,9 @@ func (q *Queries) GetUserById(ctx context.Context, id int32) ([]User, error) {
 			&i.ID,
 			&i.Email,
 			&i.Password,
+			&i.UserType,
 			&i.Created,
 			&i.Updated,
-			&i.Deleted,
 		); err != nil {
 			return nil, err
 		}
@@ -81,9 +81,9 @@ func (q *Queries) GetUserById(ctx context.Context, id int32) ([]User, error) {
 
 const insertUser = `-- name: InsertUser :one
 INSERT INTO users(
-    email, password
+    email, password, user_type
 )VALUES(
-    $1, $2
+    $1, $2, $3
 )
 RETURNING id
 `
@@ -91,10 +91,11 @@ RETURNING id
 type InsertUserParams struct {
 	Email    string
 	Password string
+	UserType string
 }
 
 func (q *Queries) InsertUser(ctx context.Context, arg InsertUserParams) (int32, error) {
-	row := q.db.QueryRowContext(ctx, insertUser, arg.Email, arg.Password)
+	row := q.db.QueryRowContext(ctx, insertUser, arg.Email, arg.Password, arg.UserType)
 	var id int32
 	err := row.Scan(&id)
 	return id, err

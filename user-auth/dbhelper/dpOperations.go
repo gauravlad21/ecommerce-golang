@@ -42,7 +42,7 @@ func (dbOps *DbOps) CloseDb(ctx context.Context) error {
 
 // start from below
 func (dbOps *DbOps) InsertUser(ctx context.Context, req *userAuthCommon.UserAuthBody, tx ...*sql.Tx) (id int32, err error) {
-	args := dbsqlc.InsertUserParams{Email: req.Email, Password: req.Password}
+	args := dbsqlc.InsertUserParams{Email: req.Email, Password: req.Password, UserType: req.UserType}
 	id, err = GetSqlcQuery(dbOps.DbSqlc, tx...).InsertUser(ctx, args)
 	if err != nil {
 		return -1, err
