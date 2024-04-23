@@ -4,8 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gauravlad21/ecommerce-golang/common"
-	productCommon "github.com/gauravlad21/ecommerce-golang/product/common"
+	"github.com/gauravlad21/ecommerce-golang/product/common"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +15,7 @@ func Hello(oldctx *gin.Context) {
 }
 
 func AddProduct(c *gin.Context) {
-	body := &productCommon.Product{}
+	body := &common.Product{}
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return
@@ -26,7 +25,7 @@ func AddProduct(c *gin.Context) {
 }
 
 func UpdateProduct(c *gin.Context) {
-	body := &productCommon.UpdateProductQuantity{}
+	body := &common.UpdateProductQuantity{}
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return

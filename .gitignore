@@ -22,4 +22,6 @@ go.work
 vendor/
 main
 user-auth/main
+order-management/main
+product/main
 .vscode

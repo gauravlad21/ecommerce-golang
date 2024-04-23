@@ -5,8 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/gauravlad21/ecommerce-golang/common"
-	omCommon "github.com/gauravlad21/ecommerce-golang/order-management/common"
+	"github.com/gauravlad21/ecommerce-golang/order-management/common"
 	"github.com/google/uuid"
 )
 
@@ -14,7 +13,7 @@ func (s *ServiceStruct) Hello(ctx context.Context) string {
 	return "hello from order-management service"
 }
 
-func (s *ServiceStruct) InsertOrder(ctx context.Context, req *omCommon.Order, tx ...*sql.Tx) *common.Response {
+func (s *ServiceStruct) InsertOrder(ctx context.Context, req *common.Order, tx ...*sql.Tx) *common.Response {
 	if req == nil {
 		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "body is nil")
 	}
@@ -27,7 +26,7 @@ func (s *ServiceStruct) InsertOrder(ctx context.Context, req *omCommon.Order, tx
 	return common.GetDefaultResponse()
 }
 
-func (s *ServiceStruct) InsertSubOrder(ctx context.Context, req *omCommon.SubOrder, tx ...*sql.Tx) *common.Response {
+func (s *ServiceStruct) InsertSubOrder(ctx context.Context, req *common.SubOrder, tx ...*sql.Tx) *common.Response {
 	if req == nil || req.UniqueOrderID == "" || req.Status == "" {
 		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "body is nil")
 	}
@@ -40,7 +39,7 @@ func (s *ServiceStruct) InsertSubOrder(ctx context.Context, req *omCommon.SubOrd
 }
 
 // todo: need validation
-func (s *ServiceStruct) GetOrder(ctx context.Context, req *omCommon.GetOrderRequest, tx ...*sql.Tx) (res *omCommon.GetOrderResponse, err error) {
+func (s *ServiceStruct) GetOrder(ctx context.Context, req *common.GetOrderRequest, tx ...*sql.Tx) (res *common.GetOrderResponse, err error) {
 	if req == nil || req.UniqueOrderID == "" {
 		return nil, fmt.Errorf("body is nil")
 	}

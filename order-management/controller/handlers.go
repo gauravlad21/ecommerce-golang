@@ -4,8 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gauravlad21/ecommerce-golang/common"
-	omCommon "github.com/gauravlad21/ecommerce-golang/order-management/common"
+	"github.com/gauravlad21/ecommerce-golang/order-management/common"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +15,7 @@ func Hello(oldctx *gin.Context) {
 }
 
 func InsertOrder(c *gin.Context) {
-	body := &omCommon.Order{}
+	body := &common.Order{}
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return
@@ -26,7 +25,7 @@ func InsertOrder(c *gin.Context) {
 }
 
 func InsertSubOrder(c *gin.Context) {
-	body := &omCommon.SubOrder{}
+	body := &common.SubOrder{}
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return
@@ -44,7 +43,7 @@ func GetOrder(c *gin.Context) {
 		return
 	}
 
-	req := &omCommon.GetOrderRequest{UserID: int32(user_id), UniqueOrderID: unique_order_id}
+	req := &common.GetOrderRequest{UserID: int32(user_id), UniqueOrderID: unique_order_id}
 	res, err := serviceRepo.GetOrder(common.GetContext(c), req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "")

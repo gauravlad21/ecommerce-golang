@@ -1,7 +1,5 @@
 package common
 
-import "github.com/gauravlad21/ecommerce-golang/common"
-
 type UserAuthBody struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -15,6 +13,6 @@ type User struct {
 }
 
 type LoginResposne struct {
-	*common.Response
+	*Response
 	Token string
 }

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  user-auth:
+    build:
+      context: ./user-auth
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+    environment:
+      # Add environment variables if needed
+      DATABASE_URL: "postgresql://user:password@db:5432/database"
+
+  product-management:
+    build:
+      context: ./product
+    ports:
+      - "8002:8002"
+    depends_on:
+      - db
+    environment:
+      # Add environment variables if needed
+      DATABASE_URL: "postgresql://user:password@db:5432/database"
+
+  order-management:
+    build:
+      context: ./order-management
+    ports:
+      - "8003:8003"
+    depends_on:
+      - db
+    environment:
+      # Add environment variables if needed
+      DATABASE_URL: "postgresql://user:password@db:5432/database"
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: database
+
+# Add additional configuration as needed

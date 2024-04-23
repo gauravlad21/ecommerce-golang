@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gauravlad21/ecommerce-golang/common"
-	userAuthCommon "github.com/gauravlad21/ecommerce-golang/user-auth/common"
+	"github.com/gauravlad21/ecommerce-golang/user-auth/common"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
@@ -16,10 +15,10 @@ func (s *ServiceStruct) Hello(ctx context.Context) string {
 	return "hello from user-auth service"
 }
 
-func (s *ServiceStruct) Signup(ctx context.Context, body *userAuthCommon.UserAuthBody) *common.Response {
+func (s *ServiceStruct) Signup(ctx context.Context, body *common.UserAuthBody) *common.Response {
 
 	// validation
-	if body == nil || body.Email == "" || body.Password == "" || userAuthCommon.StringToUnit(body.UserType) == "" {
+	if body == nil || body.Email == "" || body.Password == "" || common.StringToUnit(body.UserType) == "" {
 		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "body is nil")
 	}
 
@@ -37,23 +36,23 @@ func (s *ServiceStruct) Signup(ctx context.Context, body *userAuthCommon.UserAut
 	return common.GetDefaultResponse()
 }
 
-func (s *ServiceStruct) Login(ctx context.Context, body *userAuthCommon.UserAuthBody) *userAuthCommon.LoginResposne {
+func (s *ServiceStruct) Login(ctx context.Context, body *common.UserAuthBody) *common.LoginResposne {
 
 	// validation
 	if body == nil || body.Email == "" || body.Password == "" {
-		return &userAuthCommon.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_BAD_REQUEST, ErrorMsg: []string{"body is nil"}}}
+		return &common.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_BAD_REQUEST, ErrorMsg: []string{"body is nil"}}}
 	}
 
 	// Look up for requested user
 	user, err := s.DbOps.GetUser(ctx, body.Email)
 	if err != nil {
-		return &userAuthCommon.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_INTERNAL_ERROR, ErrorMsg: []string{err.Error()}}}
+		return &common.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_INTERNAL_ERROR, ErrorMsg: []string{err.Error()}}}
 	}
 
 	// Compare sent in password with saved users password
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
 	if err != nil {
-		return &userAuthCommon.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_INTERNAL_ERROR, ErrorMsg: []string{err.Error()}}}
+		return &common.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_INTERNAL_ERROR, ErrorMsg: []string{err.Error()}}}
 	}
 
 	// Generate a JWT token
@@ -65,12 +64,12 @@ func (s *ServiceStruct) Login(ctx context.Context, body *userAuthCommon.UserAuth
 	// Sign and get the complete encoded token as a string using the secret
 	tokenString, err := token.SignedString([]byte(viper.GetString("SECRET")))
 	if err != nil {
-		return &userAuthCommon.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_INTERNAL_ERROR, ErrorMsg: []string{err.Error()}}}
+		return &common.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_INTERNAL_ERROR, ErrorMsg: []string{err.Error()}}}
 	}
-	return &userAuthCommon.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_OK}, Token: tokenString}
+	return &common.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_OK}, Token: tokenString}
 }
 
-func (s *ServiceStruct) RequireAuth(ctx context.Context, tokenString string) (*userAuthCommon.User, error) {
+func (s *ServiceStruct) RequireAuth(ctx context.Context, tokenString string) (*common.User, error) {
 	// Decode/validate it
 	token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:

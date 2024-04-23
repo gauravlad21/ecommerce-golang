@@ -5,9 +5,9 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/gauravlad21/ecommerce-golang/user-auth/common"
-	"github.com/gauravlad21/ecommerce-golang/user-auth/controller"
-	urlmap "github.com/gauravlad21/ecommerce-golang/user-auth/urls_mappings"
+	"github.com/gauravlad21/ecommerce-golang/order-management/common"
+	"github.com/gauravlad21/ecommerce-golang/order-management/controller"
+	urlmap "github.com/gauravlad21/ecommerce-golang/order-management/urls_mappings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
