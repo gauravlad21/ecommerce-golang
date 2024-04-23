@@ -61,11 +61,12 @@ func (dbOps *DbOps) GetProduct(ctx context.Context, id int32, tx ...*sql.Tx) (pr
 	}
 	firstProduct := products[0]
 	product = &productCommon.Product{
-		Id:       firstProduct.ID,
-		Name:     firstProduct.Name,
-		Weight:   firstProduct.Weight,
-		Unit:     firstProduct.Unit,
-		Quantity: firstProduct.Quantity,
+		Id:           firstProduct.ID,
+		Name:         firstProduct.Name,
+		Weight:       firstProduct.Weight,
+		Unit:         firstProduct.Unit,
+		Quantity:     firstProduct.Quantity,
+		PricePerItem: firstProduct.PricePerProduct,
 	}
 	return product, nil
 }

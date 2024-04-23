@@ -14,8 +14,8 @@ func (s *ServiceStruct) Hello(ctx context.Context) string {
 
 func (s *ServiceStruct) AddProduct(ctx context.Context, product *productCommon.Product) *common.Response {
 	// validation
-	if product == nil {
-		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "body is nil")
+	if product == nil || product.Name == "" || product.PricePerItem == 0 || product.Weight == 0 || product.Quantity == 0 || productCommon.StringToUnit(product.Unit) != "" {
+		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "body is nil or input invalid")
 	}
 	id, err := s.DbOps.InsertProduct(ctx, product)
 	if err != nil {
@@ -34,7 +34,7 @@ func (s *ServiceStruct) GetProduct(ctx context.Context, id int32) *productCommon
 }
 
 func (s *ServiceStruct) UpdateProductQuantity(ctx context.Context, req *productCommon.UpdateProductQuantity) *common.Response {
-	if req == nil {
+	if req == nil || req.DescreaseQuantityCount == 0 {
 		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "input is nil")
 	}
 	err := s.DbOps.UpdateProductQuantity(ctx, req)
