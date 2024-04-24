@@ -58,7 +58,7 @@ func (dbOps *DbOps) GetUser(ctx context.Context, email string, tx ...*sql.Tx) (u
 	if len(users) == 0 {
 		return nil, fmt.Errorf("no user found with email: %v", email)
 	}
-	usr = &userAuthCommon.User{ID: users[0].ID, Email: users[0].Email, Password: users[0].Password}
+	usr = &userAuthCommon.User{ID: users[0].ID, Email: users[0].Email, Password: users[0].Password, UserType: users[0].UserType}
 	return usr, nil
 }
 
@@ -70,6 +70,6 @@ func (dbOps *DbOps) GetUserById(ctx context.Context, id int32, tx ...*sql.Tx) (u
 	if len(users) == 0 {
 		return nil, fmt.Errorf("no user found with id: %v", id)
 	}
-	usr = &userAuthCommon.User{ID: users[0].ID, Email: users[0].Email, Password: users[0].Password}
+	usr = &userAuthCommon.User{ID: users[0].ID, Email: users[0].Email, Password: users[0].Password, UserType: users[0].UserType}
 	return usr, nil
 }

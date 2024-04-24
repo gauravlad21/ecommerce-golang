@@ -14,3 +14,10 @@ type UpdateProductQuantity struct {
 	Id                     int32 `json:"id"`
 	DescreaseQuantityCount int32 `json:"quatity_count"`
 }
+type AuthorizationTokenRequest struct {
+	Token string `json:"token"`
+}
+type AuthorizationTokenResponse struct {
+	IsAuthorized bool   `json:"is_authorized"`
+	Email        string `json:"email"`
+}

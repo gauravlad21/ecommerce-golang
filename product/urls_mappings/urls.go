@@ -2,6 +2,7 @@ package urlsmappings
 
 import (
 	"github.com/gauravlad21/ecommerce-golang/product/controller"
+	"github.com/gauravlad21/ecommerce-golang/product/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,7 +32,7 @@ func init() {
 		// testing endpoints
 		{Url: "/hello", Method: GET, Handler: []gin.HandlerFunc{controller.Hello}},
 
-		{Url: "/product", Method: POST, Handler: []gin.HandlerFunc{controller.AddProduct}},
+		{Url: "/product", Method: POST, Handler: []gin.HandlerFunc{middleware.IsAuth, controller.AddProduct}},
 		{Url: "/product", Method: PUT, Handler: []gin.HandlerFunc{controller.UpdateProduct}},
 		{Url: "/product", Method: DELETE, Handler: []gin.HandlerFunc{controller.DeleteProduct}},
 		{Url: "/product", Method: GET, Handler: []gin.HandlerFunc{controller.GetProduct}},

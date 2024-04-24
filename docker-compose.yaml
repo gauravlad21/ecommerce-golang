@@ -8,8 +8,6 @@ services:
       - "8001:8001"
     depends_on:
       - db
-    command: >
-      chmod +x migration.sh && sh -c ./migration.sh
     environment:
       PORT: 8001
       DATABASE.HOST: db
@@ -18,7 +16,6 @@ services:
       DATABASE.USERNAME: username
       DATABASE.PASSWORD: password
 
-
   product-management:
     build:
       context: ./product
@@ -26,8 +23,6 @@ services:
       - "8002:8002"
     depends_on:
       - db
-    command: >
-      chmod +x migration.sh && sh -c ./migration.sh
     environment:
       PORT: 8002
       DATABASE.HOST: db
@@ -43,8 +38,6 @@ services:
       - "8003:8003"
     depends_on:
       - db
-    command: >
-      chmod +x migration.sh && sh -c ./migration.sh
     environment:
       PORT: 8003
       DATABASE.HOST: db
@@ -54,18 +47,40 @@ services:
       DATABASE.PASSWORD: password
 
   db:
-    image: postgres:14-alpine
-    # container_name: db
-    restart: always
+    image: postgres:15.2
     ports:
       - "5432:5432"
     volumes:
-      - dev-db-data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: username
       POSTGRES_PASSWORD: password
       POSTGRES_DB: postgres
+    healthcheck:
+      test: exit 1 ## env not set properly
+      interval: 2s
+      timeout: 5s
+      retries: 3
+    restart: always
+
+  migrate:
+    image: migrate/migrate:v4.15.2
+    profiles: ["tools"]
+    volumes:
+      - ./migration:/migrations
+    entrypoint:
+      [
+        "migrate",
+        "-path",
+        "/migrations",
+        "-database",
+        "postgres://username:password@db:5432/postgres?sslmode=disable",
+      ]
+    command: ["up"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
 
 volumes:
-  dev-db-data:
-# Add additional configuration as needed
+  postgres_data:

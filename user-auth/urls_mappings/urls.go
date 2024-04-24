@@ -34,5 +34,6 @@ func init() {
 		{Url: "/signup", Method: POST, Handler: []gin.HandlerFunc{controller.Signup}},
 		{Url: "/login", Method: POST, Handler: []gin.HandlerFunc{controller.Login}},
 		{Url: "/validate", Method: GET, Handler: []gin.HandlerFunc{controller.RequireAuth, controller.Validate}},
+		{Url: "/authorize", Method: POST, Handler: []gin.HandlerFunc{controller.Authorized}},
 	}
 }

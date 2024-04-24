@@ -10,9 +10,19 @@ type User struct {
 	ID       int32
 	Email    string
 	Password string
+	UserType string
 }
 
 type LoginResposne struct {
 	*Response
 	Token string
+}
+
+type AuthorizationTokenRequest struct {
+	Token string `json:"token"`
+}
+
+type AuthorizationTokenResponse struct {
+	IsAuthorized bool   `json:"is_authorized"`
+	Email        string `json:"email"`
 }

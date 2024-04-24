@@ -8,7 +8,6 @@ import (
 
 	"github.com/gauravlad21/ecommerce-golang/user-auth/common"
 	"github.com/gauravlad21/ecommerce-golang/user-auth/controller"
-	migration "github.com/gauravlad21/ecommerce-golang/user-auth/migrations"
 	urlmap "github.com/gauravlad21/ecommerce-golang/user-auth/urls_mappings"
 
 	"github.com/gin-gonic/gin"
@@ -57,7 +56,6 @@ func main() {
 
 	flag.Parse()
 
-	migration.Migrate()
 	common.ReadConfigFile(configPath)
 	initAndStartServer()
 }

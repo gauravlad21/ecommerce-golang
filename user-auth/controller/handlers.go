@@ -61,6 +61,24 @@ func RequireAuth(c *gin.Context) {
 	c.Next()
 }
 
+func Authorized(c *gin.Context) {
+	body := common.AuthorizationTokenRequest{}
+	if c.Bind(&body) != nil {
+		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
+		return
+	}
+	tokenString := body.Token
+
+	var res common.AuthorizationTokenResponse
+	user, err := serviceRepo.RequireAuth(common.GetContext(c), tokenString)
+	if err != nil || user.Email == "" {
+		res = common.AuthorizationTokenResponse{IsAuthorized: false}
+	} else {
+		res = common.AuthorizationTokenResponse{IsAuthorized: true, Email: res.Email}
+	}
+	c.JSON(http.StatusOK, res)
+}
+
 func Validate(c *gin.Context) {
 	contectUser, _ := c.Get("user")
 
