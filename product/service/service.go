@@ -8,7 +8,7 @@ import (
 )
 
 func (s *ServiceStruct) Hello(ctx context.Context) string {
-	return "hello from user-auth service"
+	return "hello from product service"
 }
 
 func (s *ServiceStruct) AddProduct(ctx context.Context, product *common.Product) *common.Response {

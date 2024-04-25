@@ -7,7 +7,7 @@ services:
     ports:
       - "8001:8001"
     deploy:
-      replicas: 3  
+      replicas: 1  
     depends_on:
       - db
     environment:
@@ -24,7 +24,7 @@ services:
     ports:
       - "8002:8002"
     deploy:
-      replicas: 3  
+      replicas: 1  
     depends_on:
       - db
     environment:
@@ -41,7 +41,7 @@ services:
     ports:
       - "8003:8003"
     deploy:
-      replicas: 3 
+      replicas: 1 
     depends_on:
       - db
     environment:
@@ -63,12 +63,12 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: postgres
     healthcheck:
-      test: exit 1  # Update health check command if needed
-      interval: 2s
-      timeout: 5s
+      test: exit 0  # Update health check command if needed
+      interval: 1s
+      timeout: 1s
       retries: 3
     deploy:
-      replicas: 3 
+      replicas: 1
     restart: always
 
   migrate:

@@ -33,8 +33,8 @@ func init() {
 		{Url: "/hello", Method: GET, Handler: []gin.HandlerFunc{controller.Hello}},
 
 		{Url: "/product", Method: POST, Handler: []gin.HandlerFunc{middleware.IsAutheniticated, controller.AddProduct}},
-		{Url: "/product", Method: PUT, Handler: []gin.HandlerFunc{controller.UpdateProduct}},
-		{Url: "/product", Method: DELETE, Handler: []gin.HandlerFunc{controller.DeleteProduct}},
+		{Url: "/product", Method: PUT, Handler: []gin.HandlerFunc{middleware.IsAutheniticated, controller.UpdateProduct}},
+		{Url: "/product", Method: DELETE, Handler: []gin.HandlerFunc{middleware.IsAutheniticated, controller.DeleteProduct}},
 		{Url: "/product", Method: GET, Handler: []gin.HandlerFunc{controller.GetProduct}},
 	}
 }
