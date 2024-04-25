@@ -3,7 +3,7 @@
     "secret": "sample-secret",
     "url-prefix": "user-auth",
     "database" : {
-        "host": "db",
+        "host": "localhost",
         "port": "5432",
         "dbname": "postgres",
         "username": "username",

@@ -16,7 +16,7 @@ func Hello(oldctx *gin.Context) {
 
 func InsertOrder(c *gin.Context) {
 	body := &common.Order{}
-	if c.Bind(&body) != nil {
+	if c.BindJSON(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return
 	}
@@ -26,7 +26,7 @@ func InsertOrder(c *gin.Context) {
 
 func InsertSubOrder(c *gin.Context) {
 	body := &common.SubOrder{}
-	if c.Bind(&body) != nil {
+	if c.BindJSON(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return
 	}

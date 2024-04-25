@@ -18,6 +18,12 @@ type AuthorizationTokenRequest struct {
 	Token string `json:"token"`
 }
 type AuthorizationTokenResponse struct {
-	IsAuthorized bool   `json:"is_authorized"`
-	Email        string `json:"email"`
+	IsAuthorized bool  `json:"is_authorized"`
+	User         *User `json:"user"`
+}
+
+type User struct {
+	ID       int32  `json:"id"`
+	Email    string `json:"email"`
+	UserType string `json:"user_type"`
 }

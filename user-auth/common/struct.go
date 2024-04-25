@@ -7,10 +7,10 @@ type UserAuthBody struct {
 }
 
 type User struct {
-	ID       int32
-	Email    string
+	ID       int32  `json:"id"`
+	Email    string `json:"email"`
 	Password string
-	UserType string
+	UserType string `json:"user_type"`
 }
 
 type LoginResposne struct {
@@ -23,6 +23,6 @@ type AuthorizationTokenRequest struct {
 }
 
 type AuthorizationTokenResponse struct {
-	IsAuthorized bool   `json:"is_authorized"`
-	Email        string `json:"email"`
+	IsAuthorized bool  `json:"is_authorized"`
+	User         *User `json:"user"`
 }

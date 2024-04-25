@@ -7,6 +7,9 @@ import (
 )
 
 func GetContext(ctx *gin.Context) context.Context {
-	// return context.WithValue(context.Background(), common.GetLoggerKey(), ctx.MustGet(common.GetLoggerKey().String()).(*logging.Logger))
+	if user, ok := ctx.Get("user"); ok {
+		usr := user.(*User)
+		return context.WithValue(context.Background(), "user", usr)
+	}
 	return context.Background()
 }

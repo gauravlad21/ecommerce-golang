@@ -12,10 +12,18 @@ func (s *ServiceStruct) Hello(ctx context.Context) string {
 }
 
 func (s *ServiceStruct) AddProduct(ctx context.Context, product *common.Product) *common.Response {
+	// authorization
+	usr := ctx.Value("user").(*common.User)
+	if usr.UserType != "admin" {
+		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "not an admin")
+	}
+
 	// validation
-	if product == nil || product.Name == "" || product.PricePerItem == 0 || product.Weight == 0 || product.Quantity == 0 || common.StringToUnit(product.Unit) != "" {
+	if product == nil || product.Name == "" || product.PricePerItem == 0 || product.Weight == 0 || product.Quantity == 0 || common.StringToUnit(product.Unit) == "" {
+		// fmt.Printf("%+v\n", product)
 		return common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "body is nil or input invalid")
 	}
+
 	id, err := s.DbOps.InsertProduct(ctx, product)
 	if err != nil {
 		return &common.Response{StatusCode: common.StatusCode_INTERNAL_ERROR, ErrorMsg: []string{err.Error()}}

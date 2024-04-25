@@ -16,7 +16,7 @@ func Hello(oldctx *gin.Context) {
 
 func AddProduct(c *gin.Context) {
 	body := &common.Product{}
-	if c.Bind(&body) != nil {
+	if c.BindJSON(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return
 	}
@@ -26,7 +26,7 @@ func AddProduct(c *gin.Context) {
 
 func UpdateProduct(c *gin.Context) {
 	body := &common.UpdateProductQuantity{}
-	if c.Bind(&body) != nil {
+	if c.BindJSON(&body) != nil {
 		c.JSON(http.StatusBadRequest, common.GetErrMsgsResponse(common.StatusCode_BAD_REQUEST, "Failed to read body"))
 		return
 	}

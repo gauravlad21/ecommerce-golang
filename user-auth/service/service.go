@@ -7,7 +7,6 @@ import (
 
 	"github.com/gauravlad21/ecommerce-golang/user-auth/common"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -57,12 +56,12 @@ func (s *ServiceStruct) Login(ctx context.Context, body *common.UserAuthBody) *c
 
 	// Generate a JWT token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": user.ID,
-		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
+		"user_email": user.Email,
+		"exp":        time.Now().Add(time.Hour * 24 * 30).Unix(),
 	})
 
 	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := token.SignedString([]byte(viper.GetString("SECRET")))
+	tokenString, err := token.SignedString([]byte("some-random-secret"))
 	if err != nil {
 		return &common.LoginResposne{Response: &common.Response{StatusCode: common.StatusCode_INTERNAL_ERROR, ErrorMsg: []string{err.Error()}}}
 	}
@@ -71,36 +70,40 @@ func (s *ServiceStruct) Login(ctx context.Context, body *common.UserAuthBody) *c
 
 func (s *ServiceStruct) RequireAuth(ctx context.Context, tokenString string) (*common.User, error) {
 	// Decode/validate it
-	token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 
 		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-		return []byte(viper.GetString("SECRET")), nil
+		return []byte("some-random-secret"), nil
 	})
+	if err != nil || !token.Valid {
+		// fmt.Print("lol100", err.Error())
+		return nil, fmt.Errorf("unautorized token not valid")
+	}
 
 	var ok bool
 	var claims jwt.MapClaims
 	if token != nil {
 		if claims, ok = token.Claims.(jwt.MapClaims); !ok || !token.Valid {
+			// fmt.Print("lol101")
 			return nil, fmt.Errorf("Unautorized")
 		}
 	}
 
 	// Check the expiry date
 	if exp, ok := claims["exp"].(float64); ok && float64(time.Now().Unix()) > exp {
+		// fmt.Print("lol102")
 		return nil, fmt.Errorf("Unautorized")
 	}
 
 	// Find the user with token Subject
-	var sub int32 = 0
-	if subF64, ok := claims["sub"].(float64); ok {
-		sub = int32(subF64)
-	}
-	user, err := s.DbOps.GetUserById(ctx, sub)
+	var sub string = fmt.Sprint(claims["user_email"])
+	user, err := s.DbOps.GetUser(ctx, sub)
 	if err != nil || user == nil || user.Email == "" {
+		// fmt.Print("lol103", err.Error())
 		return nil, fmt.Errorf("Unautorized")
 	}
 	return user, nil
