@@ -9,6 +9,7 @@ tech used:
 
 
 below is individual micro-service's structure
+```
 .
 ├── Dockerfile
 ├── common          ====> contains common functionalities
@@ -41,7 +42,7 @@ below is individual micro-service's structure
 ├── server.go
 └── urls_mappings
     └── urls.go      ====> entrypoint
-
+```
 
 - migration folder and Makefile are parallel to docker-compose.yaml.
 - once you build docker images using 'docker-compose up' command, run 'make migrate-up' to create tables in docker images.
